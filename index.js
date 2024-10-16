@@ -51,20 +51,36 @@ function updateCountdown() {
         const { day: dayElem, hour: hourElem, min: minElem, sec: secElem, date } = countdownElements[member];
         const gap = date - now;
 
-        const second = 1000;
-        const minute = second * 60;
-        const hour = minute * 60;
-        const day = hour * 24;
+        if (gap <= 0) {
 
-        const days = Math.floor(gap / day);
-        const hours = Math.floor((gap % day) / hour);
-        const minutes = Math.floor((gap % hour) / minute);
-        const seconds = Math.floor((gap % minute) / second);
+            if (dayElem.parentElement) {
+                const freeMessage = document.createElement('p');
+                freeMessage.innerText = "He is free!";
+                freeMessage.style.whiteSpace = "nowrap";
+                freeMessage.style.marginTop = "42px";
+                dayElem.parentElement.appendChild(freeMessage);
+                dayElem.remove();
+                hourElem.remove();
+                minElem.remove();
+                secElem.remove();
+            }
 
-        dayElem.innerText = `${days} days`;
-        hourElem.innerText = `${hours} hours`;
-        minElem.innerText = `${minutes} minutes`;
-        secElem.innerText = `${seconds} seconds`;
+        } else {
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const days = Math.floor(gap / day);
+            const hours = Math.floor((gap % day) / hour);
+            const minutes = Math.floor((gap % hour) / minute);
+            const seconds = Math.floor((gap % minute) / second);
+
+            dayElem.innerText = `${days} days`;
+            hourElem.innerText = `${hours} hours`;
+            minElem.innerText = `${minutes} minutes`;
+            secElem.innerText = `${seconds} seconds`;
+        }
     });
 
     setTimeout(updateCountdown, 1000);
